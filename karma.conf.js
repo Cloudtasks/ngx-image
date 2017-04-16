@@ -26,14 +26,15 @@ module.exports = function(config) {
             reporters: [
                 { type: 'text-summary' },
                 { type: 'json' },
-                { type: 'html' }
+                { type: 'html' },
+                { type: 'lcov' }
             ]
         },
 
         // Webpack please don't spam the console when running in karma!
         webpackServer: { noInfo: true },
 
-        reporters: [ 'mocha', 'coverage' ],
+        reporters: [ 'mocha', 'coverage', 'coveralls' ],
 
         // web server port
         port: 9876,

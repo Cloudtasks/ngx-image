@@ -1,0 +1,88 @@
+{
+  "name": "@cloudtasks/ngx-image",
+  "description": "Allows you to serve highly optimized images to your Angular apps.",
+  "author": "João Ribeiro <jonnybgod@gmail.com> (http://github.com/JonnyBGod)",
+  "devDependencies": {
+    "@angular/common": "^4.0.2",
+    "@angular/compiler": "^4.0.2",
+    "@angular/compiler-cli": "^4.0.2",
+    "@angular/core": "^4.0.2",
+    "@angular/platform-browser": "^4.0.2",
+    "@angular/platform-browser-dynamic": "^4.0.2",
+    "@angular/router": "^4.0.2",
+    "@types/core-js": "^0.9.41",
+    "@types/jasmine": "^2.5.47",
+    "@types/node": "^7.0.12",
+    "awesome-typescript-loader": "^3.1.2",
+    "codelyzer": "^2.1.1",
+    "commitizen": "^2.9.6",
+    "concurrently": "^3.4.0",
+    "core-js": "^2.4.1",
+    "cz-conventional-changelog": "^2.0.0",
+    "istanbul-instrumenter-loader": "^0.2.0",
+    "jasmine-core": "^2.5.1",
+    "karma": "^1.6.0",
+    "karma-chrome-launcher": "^2.0.0",
+    "karma-coverage": "^1.1.1",
+    "karma-jasmine": "^1.1.0",
+    "karma-mocha-reporter": "^2.2.3",
+    "karma-sourcemap-loader": "^0.3.7",
+    "karma-webpack": "^2.0.3",
+    "reflect-metadata": "^0.1.10",
+    "rimraf": "^2.6.1",
+    "rxjs": "^5.3.0",
+    "semantic-release": "^6.3.6",
+    "source-map-loader": "^0.2.1",
+    "systemjs": "^0.20.12",
+    "ts-helpers": "^1.1.1",
+    "tslint": "^5.1.0",
+    "tslint-loader": "^3.5.2",
+    "typescript": "^2.2.2",
+    "webpack": "^2.4.1",
+    "zone.js": "^0.8.5"
+  },
+  "bugs": {
+    "url": "http://github.com/cloudtasks/ngx-image/issues"
+  },
+  "scripts": {
+    "rimraf": "rimraf",
+    "lint": "tslint ./src/{,*/}*.ts",
+    "pretest": "npm run rimraf -- dist coverage",
+    "test": "karma start",
+    "test-watch": "karma start --singleRun=false --autoWatch=true",
+    "clean": "npm cache clean && npm run rimraf -- node_modules dist coverage",
+    "preclean:install": "npm run clean",
+    "clean:install": "npm set progress=false && npm i",
+    "commit": "git-cz",
+    "prebuild": "npm run rimraf -- dist",
+    "build": "ngc && webpack",
+    "semantic-release": "semantic-release pre && npm run build && npm publish && semantic-release post"
+  },
+  "main": "dist/core.umd.js",
+  "module": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cloudtasks/ngx-image.git"
+  },
+  "keywords": [
+    "angular",
+    "AngularJS",
+    "cloudtasks",
+    "image",
+    "images",
+    "processing",
+    "image-processing",
+    "optimisation",
+    "image-optimisation"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">=6.9.0"
+  },
+  "config": {
+    "commitizen": {
+      "path": "node_modules/cz-conventional-changelog"
+    }
+  }
+}

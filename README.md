@@ -1,5 +1,5 @@
 # [ngx-image](https://cloudtasks.io)
-[![npm version](https://img.shields.io/npm/v/ngx-image.svg?style=flat)](https://www.npmjs.com/package/ngx-image)
+[![npm version](https://img.shields.io/npm/v/@cloudtasks/ngx-image.svg?style=flat)](https://www.npmjs.com/package/@cloudtasks/ngx-image)
 [![Build Status](https://img.shields.io/travis/Cloudtasks/ngx-image/master.svg?style=flat)](https://travis-ci.org/Cloudtasks/ngx-image)
 [![Codacy Badge](https://api.codacy.com/project/badge/grade/bafd522f82da48fda8bb25bee689b32f)](https://www.codacy.com/app/jonnybgod/ngx-image)
 [![Coverage Status](https://coveralls.io/repos/Cloudtasks/ngx-image/badge.svg?branch=master&service=github)](https://coveralls.io/github/Cloudtasks/ngx-image?branch=master)

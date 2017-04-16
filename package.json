@@ -31,7 +31,7 @@
     "reflect-metadata": "^0.1.10",
     "rimraf": "^2.6.1",
     "rxjs": "^5.3.0",
-    "semantic-release": "^6.3.6",
+    "semantic-release": "^6.3.2",
     "source-map-loader": "^0.2.1",
     "systemjs": "^0.20.12",
     "ts-helpers": "^1.1.1",
@@ -42,7 +42,7 @@
     "zone.js": "^0.8.5"
   },
   "bugs": {
-    "url": "http://github.com/cloudtasks/ngx-image/issues"
+    "url": "http://github.com/Cloudtasks/ngx-image/issues"
   },
   "scripts": {
     "rimraf": "rimraf",
@@ -56,14 +56,14 @@
     "commit": "git-cz",
     "prebuild": "npm run rimraf -- dist",
     "build": "ngc && webpack",
-    "semantic-release": "semantic-release pre && npm run build && npm publish && semantic-release post"
+    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
   "main": "dist/core.umd.js",
   "module": "dist/index.js",
   "typings": "dist/index.d.ts",
   "repository": {
     "type": "git",
-    "url": "https://github.com/cloudtasks/ngx-image.git"
+    "url": "https://github.com/Cloudtasks/ngx-image.git"
   },
   "keywords": [
     "angular",
@@ -84,5 +84,6 @@
     "commitizen": {
       "path": "node_modules/cz-conventional-changelog"
     }
-  }
+  },
+  "version": "0.0.0-development"
 }

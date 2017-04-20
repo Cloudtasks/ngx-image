@@ -57,7 +57,7 @@
     "commit": "git-cz",
     "prebuild": "npm run rimraf -- dist",
     "build": "ngc && webpack",
-    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
+    "semantic-release": "semantic-release pre && npm run build && npm publish && semantic-release post"
   },
   "main": "dist/core.umd.js",
   "module": "dist/index.js",

@@ -46,7 +46,7 @@ describe('CloudtasksDirective', () => {
 
       fixture.detectChanges();
 
-      expect(compiled.src).toMatch(/\/\/images.cloudtasks.io\/YOUR_CLIENT_ID/);
+      expect(compiled.src).toMatch(/\/\/images.ctcdn.co\/YOUR_CLIENT_ID/);
     });
   }));
 

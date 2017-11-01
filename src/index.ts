@@ -1,9 +1,8 @@
 import {
   NgModule,
   ModuleWithProviders,
-  Inject,
   Optional,
-  OpaqueToken
+  SkipSelf
 } from '@angular/core';
 
 import { CloudtasksDirective } from './directive';
@@ -12,22 +11,18 @@ import { CloudtasksService } from './service';
 export * from './directive';
 export * from './service';
 
-export const NG2CLOUDTASKS_FORROOT_GUARD = new OpaqueToken('NG2CLOUDTASKS_FORROOT_GUARD');
-export function provideForRootGuard(cloudtasksService: CloudtasksService): any {
-  if (cloudtasksService) {
-    throw new Error(
-      `CloudtasksModule.forRoot() called twice. Lazy loaded modules should declare directives directly.`
-    );
-  }
-  return 'guarded';
-}
-
 @NgModule({
   declarations: [ CloudtasksDirective ],
   exports: [ CloudtasksDirective ]
 })
 export class CloudtasksModule {
-  constructor(@Optional() @Inject(NG2CLOUDTASKS_FORROOT_GUARD) guard: any) {}
+  constructor(@Optional() @SkipSelf() parentModule: CloudtasksModule) {
+    if (parentModule) {
+      throw new Error(
+        'CloudtasksModule.forRoot() called twice. Lazy loaded modules should use CloudtasksModule instead.',
+      );
+    }
+  }
 
   static forRoot(): ModuleWithProviders {
     return {

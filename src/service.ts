@@ -1,8 +1,17 @@
 import { Injectable } from '@angular/core';
 
+export interface Settings {
+  clientId: string;
+  dev?: boolean;
+  options?: any;
+  placeholderImage?: string;
+  photoWidths: number[];
+  photoHeights: number[];
+}
+
 @Injectable()
 export class CloudtasksService {
-  public settings = {
+  public settings: Settings = {
     clientId: '',
     dev: false,
     options: {},
@@ -13,9 +22,7 @@ export class CloudtasksService {
 
   constructor() {
     if (this.canUseWebP()) {
-      this.settings.options = {
-        convert: 'webp'
-      };
+      this.settings.options.convert = 'webp';
     }
   }
 
@@ -40,14 +47,7 @@ export class CloudtasksService {
   * @returns {boolean}
   */
   private canUseWebP() {
-    var elem = document.createElement('canvas');
-
-    if (!!(elem.getContext && elem.getContext('2d'))) {
-      // was able or not to get WebP representation
-      return elem.toDataURL('image/webp').indexOf('data:image/webp') === 0;
-    } else {
-      // very old browser like IE 8, canvas not supported
-      return false;
-    }
+    const elem = document.createElement('canvas')
+    return elem.getContext && elem.getContext('2d') && elem.toDataURL('image/webp').indexOf('data:image/webp') === 0
   }
 }

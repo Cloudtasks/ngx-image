@@ -1,9 +1,4 @@
-import {
-  NgModule,
-  ModuleWithProviders,
-  Optional,
-  SkipSelf
-} from '@angular/core';
+import { NgModule, ModuleWithProviders } from '@angular/core';
 
 import { CloudtasksDirective } from './directive';
 import { CloudtasksService } from './service';
@@ -16,14 +11,6 @@ export * from './service';
   exports: [ CloudtasksDirective ]
 })
 export class CloudtasksModule {
-  constructor(@Optional() @SkipSelf() parentModule: CloudtasksModule) {
-    if (parentModule) {
-      throw new Error(
-        'CloudtasksModule.forRoot() called twice. Lazy loaded modules should use CloudtasksModule instead.',
-      );
-    }
-  }
-
   static forRoot(): ModuleWithProviders {
     return {
       ngModule: CloudtasksModule,

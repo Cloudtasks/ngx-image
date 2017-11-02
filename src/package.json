@@ -1,0 +1,28 @@
+{
+  "name": "@cloudtasks/ngx-image",
+  "description": "Allows you to serve highly optimized images to your Angular apps.",
+  "author": "João Ribeiro <jonnybgod@gmail.com> (http://github.com/JonnyBGod)",
+  "license": "MIT",
+  "peerDependencies": {
+    "@angular/core": "^5.0.0",
+    "@angular/common": "^5.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Cloudtasks/ngx-image.git"
+  },
+  "bugs": {
+    "url": "http://github.com/Cloudtasks/ngx-image/issues"
+  },
+  "keywords": [
+    "angular",
+    "AngularJS",
+    "cloudtasks",
+    "image",
+    "images",
+    "processing",
+    "image-processing",
+    "optimisation",
+    "image-optimisation"
+  ]
+}

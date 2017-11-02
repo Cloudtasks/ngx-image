@@ -1,4 +1,4 @@
-import { CloudtasksService } from './service';
+import { CloudtasksService } from './ngx-image.service';
 
 describe('CloudtasksService', () => {
   let service: CloudtasksService;

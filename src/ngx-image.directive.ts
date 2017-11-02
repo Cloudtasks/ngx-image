@@ -3,14 +3,13 @@ import {
   Injectable,
   Inject,
   ElementRef,
-  Renderer,
+  Renderer2,
   Input,
   OnInit,
   AfterViewInit
 } from '@angular/core';
-import { Location } from '@angular/common';
-import { DOCUMENT } from '@angular/platform-browser';
-import { CloudtasksService } from './service';
+import { Location, DOCUMENT } from '@angular/common';
+import { CloudtasksService } from './ngx-image.service';
 
 @Injectable()
 @Directive({
@@ -39,7 +38,7 @@ export class CloudtasksDirective implements OnInit, AfterViewInit {
     @Inject(DOCUMENT) private document: any,
     private location: Location,
     private elRef: ElementRef,
-    private renderer: Renderer,
+    private renderer: Renderer2,
     private cloudtasks: CloudtasksService
   ) {
     this.el = this.elRef.nativeElement;
@@ -81,21 +80,21 @@ export class CloudtasksDirective implements OnInit, AfterViewInit {
 
   init() {
     if (this.ctPlaceholderImage || this.settings.placeholderImage) {
-      this.renderer.setElementStyle(this.el, 'background-image', 'url(//'+ this.getDefaultURL() +')');
+      this.renderer.setStyle(this.el, 'background-image', 'url(//'+ this.getDefaultURL() +')');
     }
 
-    this.renderer.setElementAttribute(this.el, 'src', this.getURL());
+    this.renderer.setAttribute(this.el, 'src', this.getURL());
   }
 
   onError() {
     if (this.tries === 0) {
       this.tries += 1;
       if (this.ctPlaceholderImage || this.settings.placeholderImage) {
-        this.renderer.setElementAttribute(this.el, 'src', this.getDefaultURL());
+        this.renderer.setAttribute(this.el, 'src', this.getDefaultURL());
       }
     } else if (this.tries === 1) {
       this.tries += 1;
-      this.renderer.setElementAttribute(this.el, 'src', this.getErrorURL());
+      this.renderer.setAttribute(this.el, 'src', this.getErrorURL());
     }
   }
 
@@ -212,7 +211,7 @@ export class CloudtasksDirective implements OnInit, AfterViewInit {
       // url is absolute already
       return 'http:' + url;
     } else if ('string' !== typeof base) {
-      a = this.renderer.createElement(this.el, 'a');
+      a = this.renderer.createElement('a');
       // try to resolve url without base
       a.href = url;
 
@@ -232,7 +231,7 @@ export class CloudtasksDirective implements OnInit, AfterViewInit {
       }
     }
 
-    a = this.renderer.createElement(this.el, 'a');
+    a = this.renderer.createElement('a');
     a.href = base;
 
     if (url[0] === '/') {

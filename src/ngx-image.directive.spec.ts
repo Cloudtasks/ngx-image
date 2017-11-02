@@ -3,8 +3,8 @@ import { CommonModule, Location } from '@angular/common';
 import { async, TestBed } from '@angular/core/testing';
 import { SpyLocation } from '@angular/common/testing';
 
-import { CloudtasksModule } from './index';
-import { CloudtasksService } from './service';
+import { CloudtasksModule } from './ngx-image.module';
+import { CloudtasksService } from './ngx-image.service';
 
 @Component({
   selector: 'TestComponent',

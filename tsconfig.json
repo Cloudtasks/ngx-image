@@ -1,25 +1,23 @@
 {
+  "compileOnSave": false,
   "compilerOptions": {
-    "noImplicitAny": true,
-    "module": "es2015",
-    "target": "es5",
+    "outDir": "./dist/out-tsc",
+    "baseUrl": "src",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "declaration": true,
-    "moduleResolution": "node",
-    "types": [
-      "jasmine",
-      "node"
+    "target": "es5",
+    "typeRoots": [
+      "node_modules/@types"
     ],
-    "lib": ["es2015", "dom"],
-    "outDir": "dist"
+    "lib": [
+      "es2016",
+      "dom"
+    ]
   },
-  "files": [
-    "src/index.ts"
-  ],
-  "compileOnSave": false,
-  "angularCompilerOptions": {
-    "strictMetadataEmit": true,
-    "skipTemplateCodegen": true
-  }
+  "exclude": [
+    ".ng_build"
+  ]
 }

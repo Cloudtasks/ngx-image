@@ -99,7 +99,7 @@ export class CloudtasksDirective implements OnInit, AfterViewInit {
   }
 
   getURL(): string {
-    return '//'+ (this.settings.dev ? 'dev-' : '') +'images.ctcdn.co/'+
+    return '//'+ (this.settings.dev ? 'dev-images.ctcdn.co' : 'cloudtasks.global.ssl.fastly.net') + '/' +
       this.settings.clientId +
       this.optionsString +
       this.getSize() +'/'+
@@ -107,7 +107,7 @@ export class CloudtasksDirective implements OnInit, AfterViewInit {
   }
 
   getDefaultURL(): string {
-    return '//'+ (this.settings.dev ? 'dev-' : '') +'images.ctcdn.co/'+
+    return '//'+ (this.settings.dev ? 'dev-images.ctcdn.co' : 'cloudtasks.global.ssl.fastly.net') + '/' +
       this.settings.clientId +'/'+
       this.optionsString +
       this.getSize() +'/'+
@@ -115,7 +115,7 @@ export class CloudtasksDirective implements OnInit, AfterViewInit {
   }
 
   getErrorURL(): string {
-    return '//'+ (this.settings.dev ? 'dev-' : '') +'images.ctcdn.co/'+
+    return '//'+ (this.settings.dev ? 'dev-images.ctcdn.co' : 'cloudtasks.global.ssl.fastly.net') + '/' +
       this.settings.clientId +'/'+
       this.optionsString +
       this.getSize() +'/'+
@@ -205,9 +205,9 @@ export class CloudtasksDirective implements OnInit, AfterViewInit {
       // wrong or empty url
       return null;
     } else if (url.match(/^[a-z]+\:\/\//i)) {
-      // url is absolute already 
+      // url is absolute already
       return url;
-    } else if (url.match(/^\/\//)) { 
+    } else if (url.match(/^\/\//)) {
       // url is absolute already
       return 'http:' + url;
     } else if ('string' !== typeof base) {
@@ -215,13 +215,13 @@ export class CloudtasksDirective implements OnInit, AfterViewInit {
       // try to resolve url without base
       a.href = url;
 
-      if(!a.hostname || !a.protocol || !a.pathname) { 
-        // url not valid 
+      if(!a.hostname || !a.protocol || !a.pathname) {
+        // url not valid
         return null;
       }
 
       return 'http://'+url;
-    } else { 
+    } else {
       // check base
       base = this.resolve(base);
 
@@ -240,7 +240,7 @@ export class CloudtasksDirective implements OnInit, AfterViewInit {
     } else {
       // relative path
       base = a.pathname.split('/');
-      base.pop(); 
+      base.pop();
     }
     url = url.split('/');
 
@@ -257,7 +257,7 @@ export class CloudtasksDirective implements OnInit, AfterViewInit {
         }
       } else {
         // child directory
-        base.push(url[i]); 
+        base.push(url[i]);
       }
     }
 

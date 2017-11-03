@@ -46,7 +46,7 @@ describe('CloudtasksDirective', () => {
 
       fixture.detectChanges();
 
-      expect(compiled.src).toMatch(/\/\/images.ctcdn.co\/YOUR_CLIENT_ID/);
+      expect(compiled.src).toMatch(/\/\/cloudtasks.global.ssl.fastly.net\/YOUR_CLIENT_ID/);
     });
   }));
 
@@ -134,7 +134,7 @@ describe('CloudtasksDirective', () => {
       expect(compiled.src).toMatch(/trim/);
     });
   }));
-  
+
   it('should set placeholder image', async(() => {
     TestBed.overrideComponent(TestComponent, {
       set: {
@@ -145,7 +145,7 @@ describe('CloudtasksDirective', () => {
     TestBed.compileComponents().then(() => {
       const fixture = TestBed.createComponent(TestComponent);
       let compiled = fixture.debugElement.nativeElement.children[0];
-      
+
       fixture.detectChanges();
 
       expect(compiled.style['background-image']).toMatch(/placeholderImage/);

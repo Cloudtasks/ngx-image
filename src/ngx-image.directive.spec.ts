@@ -61,12 +61,11 @@ describe('CloudtasksDirective', () => {
 
     TestBed.compileComponents().then(() => {
       const fixture = TestBed.createComponent(TestComponent);
-      const directiveEl = fixture.debugElement.query(By.directive(CloudtasksDirective));
-      expect(directiveEl).not.toBeNull();
+      let compiled = fixture.debugElement.nativeElement.children[0];
 
-      const directiveInstance = directiveEl.injector.get(CloudtasksDirective);
+      fixture.detectChanges();
 
-      expect(directiveInstance.resolve('image.jpg')).toBe('http://localhost/image.jpg');
+      expect(compiled.src).toBe('http://localhost:9876/image.jpg');
     });
   }));
 
@@ -83,7 +82,7 @@ describe('CloudtasksDirective', () => {
 
       fixture.detectChanges();
 
-      expect(compiled.src).toBe('');
+      expect(compiled.src).toBe('http://localhost:9876/image.jpg');
     });
   }));
 

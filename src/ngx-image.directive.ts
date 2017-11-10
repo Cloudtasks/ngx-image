@@ -136,7 +136,7 @@ export class CloudtasksDirective implements OnInit, AfterViewInit {
   isLocal(): boolean {
     const a = this.renderer.createElement('a');
     a.href = this.resolvedUrl;
-    return /localhost|\.local|:\d{2,4}/i.test(a.hostname);
+    return /localhost$|\.local$|:\d{2,4}$/i.test(a.hostname);
   }
 
   getSize(): string {

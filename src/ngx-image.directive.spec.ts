@@ -2,9 +2,11 @@ import { Component } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
 import { async, TestBed } from '@angular/core/testing';
 import { SpyLocation } from '@angular/common/testing';
+import { By } from '@angular/platform-browser';
 
 import { CloudtasksModule } from './ngx-image.module';
 import { CloudtasksService } from './ngx-image.service';
+import { CloudtasksDirective } from './ngx-image.directive'
 
 @Component({
   selector: 'TestComponent',
@@ -59,11 +61,29 @@ describe('CloudtasksDirective', () => {
 
     TestBed.compileComponents().then(() => {
       const fixture = TestBed.createComponent(TestComponent);
+      const directiveEl = fixture.debugElement.query(By.directive(CloudtasksDirective));
+      expect(directiveEl).not.toBeNull();
+
+      const directiveInstance = directiveEl.injector.get(CloudtasksDirective);
+
+      expect(directiveInstance.resolve('image.jpg')).toBe('http://localhost/image.jpg');
+    });
+  }));
+
+  it('should skip local images', async(() => {
+    TestBed.overrideComponent(TestComponent, {
+      set: {
+        template: `<img ctSrc="image.jpg" [ctOptions]="{trim: true}" ctSize="origxorig"/>`
+      }
+    });
+
+    TestBed.compileComponents().then(() => {
+      const fixture = TestBed.createComponent(TestComponent);
       let compiled = fixture.debugElement.nativeElement.children[0];
 
       fixture.detectChanges();
 
-      expect(compiled.src).toMatch(/http%3A%2F%2Flocalhost%2Fimage.jpg/);
+      expect(compiled.src).toBe('');
     });
   }));
 

@@ -32,6 +32,8 @@ export class CloudtasksDirective implements OnInit, AfterViewInit {
   private height: number;
   private optionsString: string = '/';
 
+  private resolvedUrl: string;
+
   private tries: number = 0;
 
   constructor(
@@ -58,6 +60,12 @@ export class CloudtasksDirective implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.parseOptions();
+
+    this.resolvedUrl = this.resolve(this.imageSource);
+
+    if (this.isLocal()) {
+      return;
+    }
 
     if (this.ctSize) {
       this.init();
@@ -94,6 +102,9 @@ export class CloudtasksDirective implements OnInit, AfterViewInit {
       }
     } else if (this.tries === 1) {
       this.tries += 1;
+      this.renderer.setAttribute(this.el, 'src', this.imageSource);
+    } else if (this.tries === 2) {
+      this.tries += 1;
       this.renderer.setAttribute(this.el, 'src', this.getErrorURL());
     }
   }
@@ -103,7 +114,7 @@ export class CloudtasksDirective implements OnInit, AfterViewInit {
       this.settings.clientId +
       this.optionsString +
       this.getSize() +'/'+
-      encodeURIComponent(decodeURIComponent(this.resolve(this.imageSource)));
+      encodeURIComponent(decodeURIComponent(this.resolvedUrl));
   }
 
   getDefaultURL(): string {
@@ -120,6 +131,12 @@ export class CloudtasksDirective implements OnInit, AfterViewInit {
       this.optionsString +
       this.getSize() +'/'+
       encodeURIComponent(decodeURIComponent('https://cloudtasks.ctcdn.co/images/cloudtasks_fill_blue-512x512.png'));
+  }
+
+  isLocal(): boolean {
+    const a = this.renderer.createElement('a');
+    a.href = this.resolvedUrl;
+    return /localhost|\.local/i.test(a.hostname);
   }
 
   getSize(): string {

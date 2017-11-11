@@ -7,9 +7,9 @@ import {
   Input,
   OnInit,
   AfterViewInit
-} from '@angular/core';
-import { Location, DOCUMENT } from '@angular/common';
-import { CloudtasksService } from './ngx-image.service';
+} from '@angular/core'
+import { Location, DOCUMENT } from '@angular/common'
+import { CloudtasksService } from './ngx-image.service'
 
 @Injectable()
 @Directive({
@@ -19,22 +19,22 @@ import { CloudtasksService } from './ngx-image.service';
   }
 })
 export class CloudtasksDirective implements OnInit, AfterViewInit {
-  @Input('ctSrc') imageSource: string;
-  @Input() ctOptions: any;
-  @Input() ctPlaceholderImage: string;
-  @Input() ctSize: string;
-  @Input() ctForceSize: boolean;
+  @Input('ctSrc') imageSource: string
+  @Input() ctOptions: any
+  @Input() ctPlaceholderImage: string
+  @Input() ctSize: string
+  @Input() ctForceSize: boolean
 
-  private el: any;
+  private el: any
 
-  private settings: any;
-  private width: number;
-  private height: number;
-  private optionsString: string = '/';
+  private settings: any
+  private width: number
+  private height: number
+  private optionsString: string = '/'
 
-  private resolvedUrl: string;
+  private resolvedUrl: string
 
-  private tries: number = 0;
+  private tries: number = 0
 
   constructor(
     @Inject(DOCUMENT) private document: any,
@@ -43,241 +43,285 @@ export class CloudtasksDirective implements OnInit, AfterViewInit {
     private renderer: Renderer2,
     private cloudtasks: CloudtasksService
   ) {
-    this.el = this.elRef.nativeElement;
-
-    this.settings = this.cloudtasks.getSettings();
+    this.el = this.elRef.nativeElement
+    this.settings = this.cloudtasks.getSettings()
   }
 
   ngOnInit() {
     if (!this.settings.clientId.length) {
-      throw('Cloudtasks: You need to configure your clientId.');
+      throw 'Cloudtasks: You need to configure your clientId.'
     }
 
     if (!this.imageSource) {
-      throw('Cloudtasks: You need to provide an URL string on [ngSrc].');
+      throw 'Cloudtasks: You need to provide an URL string on [ngSrc].'
     }
   }
 
   ngAfterViewInit() {
-    this.parseOptions();
+    this.parseOptions()
 
-    this.resolvedUrl = this.resolve(this.imageSource);
+    this.resolvedUrl = this.resolve(this.imageSource)
 
     if (this.isLocal()) {
-      return this.renderer.setAttribute(this.el, 'src', this.imageSource);
+      return this.renderer.setAttribute(this.el, 'src', this.imageSource)
     }
 
     if (this.ctSize) {
-      this.init();
+      this.init()
     } else {
-      var rect = this.el.getBoundingClientRect();
-      this.width = rect.width;
-      this.height = rect.height;
+      if (typeof getComputedStyle === 'function') {
+        const nodeComputedStyle = getComputedStyle(this.el, null)
+        this.width = parseInt(nodeComputedStyle.width, 10)
+        this.height = parseInt(nodeComputedStyle.height, 10)
 
-      if (!this.width && !this.height) {
-        rect = this.el.parentElement.getBoundingClientRect();
-        this.width = rect.width;
-        this.height = rect.height;
-
-        this.init();
+        if (this.width <= 0 || this.height <= 0) {
+          const parentComputedStyle = getComputedStyle(this.el.parentNode, null)
+          if (this.width <= 0) {
+            this.width = parseInt(parentComputedStyle.width, 10)
+          }
+          if (this.height <= 0) {
+            this.height = parseInt(parentComputedStyle.height, 10)
+          }
+        }
       } else {
-        this.init();
+        const nodeRect = this.el.getBoundingClientRect()
+        this.width = nodeRect.width
+        this.height = nodeRect.height
+
+        if (this.width <= 0 || this.height <= 0) {
+          const parentRect = this.el.parentElement.getBoundingClientRect()
+          if (this.width <= 0) {
+            this.width = parentRect.width
+          }
+          if (this.height <= 0) {
+            this.height = parentRect.height
+          }
+        }
       }
+
+      this.init()
     }
   }
 
   init() {
     if (this.ctPlaceholderImage || this.settings.placeholderImage) {
-      this.renderer.setStyle(this.el, 'background-image', 'url(//'+ this.getDefaultURL() +')');
+      this.renderer.setStyle(this.el, 'background-image', 'url(//' + this.getDefaultURL() + ')')
     }
 
-    this.renderer.setAttribute(this.el, 'src', this.getURL());
+    this.renderer.setAttribute(this.el, 'src', this.getURL())
   }
 
   onError() {
     if (this.tries === 0) {
-      this.tries += 1;
+      this.tries += 1
       if (this.ctPlaceholderImage || this.settings.placeholderImage) {
-        this.renderer.setAttribute(this.el, 'src', this.getDefaultURL());
+        this.renderer.setAttribute(this.el, 'src', this.getDefaultURL())
       }
     } else if (this.tries === 1) {
-      this.tries += 1;
-      this.renderer.setAttribute(this.el, 'src', this.imageSource);
+      this.tries += 1
+      this.renderer.setAttribute(this.el, 'src', this.imageSource)
     } else if (this.tries === 2) {
-      this.tries += 1;
-      this.renderer.setAttribute(this.el, 'src', this.getErrorURL());
+      this.tries += 1
+      this.renderer.setAttribute(this.el, 'src', this.getErrorURL())
     }
   }
 
   getURL(): string {
-    return '//'+ (this.settings.dev ? 'dev-images.ctcdn.co' : 'cloudtasks.global.ssl.fastly.net') + '/' +
+    return (
+      '//' +
+      (this.settings.dev ? 'dev-images.ctcdn.co' : 'cloudtasks.global.ssl.fastly.net') +
+      '/' +
       this.settings.clientId +
       this.optionsString +
-      this.getSize() +'/'+
-      encodeURIComponent(decodeURIComponent(this.resolvedUrl));
+      this.getSize() +
+      '/' +
+      encodeURIComponent(decodeURIComponent(this.resolvedUrl))
+    )
   }
 
   getDefaultURL(): string {
-    return '//'+ (this.settings.dev ? 'dev-images.ctcdn.co' : 'cloudtasks.global.ssl.fastly.net') + '/' +
-      this.settings.clientId +'/'+
+    return (
+      '//' +
+      (this.settings.dev ? 'dev-images.ctcdn.co' : 'cloudtasks.global.ssl.fastly.net') +
+      '/' +
+      this.settings.clientId +
+      '/' +
       this.optionsString +
-      this.getSize() +'/'+
-      encodeURIComponent(decodeURIComponent(this.resolve(this.ctPlaceholderImage || this.settings.placeholderImage)));
+      this.getSize() +
+      '/' +
+      encodeURIComponent(
+        decodeURIComponent(this.resolve(this.ctPlaceholderImage || this.settings.placeholderImage))
+      )
+    )
   }
 
   getErrorURL(): string {
-    return '//'+ (this.settings.dev ? 'dev-images.ctcdn.co' : 'cloudtasks.global.ssl.fastly.net') + '/' +
-      this.settings.clientId +'/'+
+    return (
+      '//' +
+      (this.settings.dev ? 'dev-images.ctcdn.co' : 'cloudtasks.global.ssl.fastly.net') +
+      '/' +
+      this.settings.clientId +
+      '/' +
       this.optionsString +
-      this.getSize() +'/'+
-      encodeURIComponent(decodeURIComponent('https://cloudtasks.ctcdn.co/images/cloudtasks_fill_blue-512x512.png'));
+      this.getSize() +
+      '/' +
+      encodeURIComponent(
+        decodeURIComponent('https://cloudtasks.ctcdn.co/images/cloudtasks_fill_blue-512x512.png')
+      )
+    )
   }
 
   isLocal(): boolean {
-    const a = this.renderer.createElement('a');
-    a.href = this.resolvedUrl;
-    return /localhost$|\.local$|:\d{2,4}$/i.test(a.hostname);
+    const a = this.renderer.createElement('a')
+    a.href = this.resolvedUrl
+    return /localhost$|\.local$|:\d{2,4}$/i.test(a.hostname)
   }
 
   getSize(): string {
-    let calc = '';
+    let calc = ''
 
     if (this.ctSize) {
-      calc = this.ctSize;
+      calc = this.ctSize
     } else {
       if (!this.ctForceSize) {
         if (this.width) {
           for (var x = 0; x < this.settings.photoWidths.length; x++) {
             if (this.settings.photoWidths[x] < this.width) {
-              calc += this.settings.photoWidths[x-1] ? this.settings.photoWidths[x-1] : this.settings.photoWidths[x];
-              break;
+              calc += this.settings.photoWidths[x - 1]
+                ? this.settings.photoWidths[x - 1]
+                : this.settings.photoWidths[x]
+              break
             }
           }
         }
 
-        if (this.height && (!this.width || this.width/this.height <= 4 )) {
+        if (this.height && (!this.width || this.width / this.height <= 4)) {
           for (var y = 0; y < this.settings.photoHeights.length; y++) {
             if (this.settings.photoHeights[y] < this.height) {
-              calc += 'x'+ (this.settings.photoHeights[y-1] ? this.settings.photoHeights[y-1] : this.settings.photoHeights[y]);
-              break;
+              calc +=
+                'x' +
+                (this.settings.photoHeights[y - 1]
+                  ? this.settings.photoHeights[y - 1]
+                  : this.settings.photoHeights[y])
+              break
             }
           }
         }
       } else {
         if (this.width) {
-          calc = this.width.toString();
+          calc = this.width.toString()
         }
 
         if (this.height) {
-          calc = calc +'x'+ this.height;
+          calc = calc + 'x' + this.height
         }
       }
 
       if (!calc) {
-        calc = 'origxorig';
+        calc = 'origxorig'
       } else if (calc.toString().indexOf('x') === -1) {
-        calc = calc +'x';
+        calc = calc + 'x'
       }
     }
 
-    return calc;
+    return calc
   }
 
   parseOptions() {
-    let options = Object.assign({}, this.settings.options);
+    let options = Object.assign({}, this.settings.options)
 
     if (this.ctOptions) {
-      options = Object.assign(options, this.ctOptions);
+      options = Object.assign(options, this.ctOptions)
     }
 
-    let optionsString = '/';
+    let optionsString = '/'
 
     for (let key in options) {
       if (!options.hasOwnProperty(key)) {
-        continue;
+        continue
       }
 
-      const value = options[key];
+      const value = options[key]
 
       if (value) {
         if (typeof value === 'string') {
-          optionsString = optionsString + key +':'+ value +'/';
+          optionsString = optionsString + key + ':' + value + '/'
         } else {
-          optionsString = optionsString + key +'/';
+          optionsString = optionsString + key + '/'
         }
       }
     }
 
-    this.optionsString = optionsString;
+    this.optionsString = optionsString
   }
 
   resolve(url: any) {
-    var loc = this.location.path().split('/');
-    loc.pop();
-    var base: any = this.document.location.origin + loc.join('/') + '/';
+    var loc = this.location.path().split('/')
+    loc.pop()
+    var base: any = this.document.location.origin + loc.join('/') + '/'
 
-    var a: any;
+    var a: any
 
-    if('string' !== typeof url || !url) {
+    if ('string' !== typeof url || !url) {
       // wrong or empty url
-      return null;
+      return null
     } else if (url.match(/^[a-z]+\:\/\//i)) {
       // url is absolute already
-      return url;
+      return url
     } else if (url.match(/^\/\//)) {
       // url is absolute already
-      return 'http:' + url;
+      return 'http:' + url
     } else if ('string' !== typeof base) {
-      a = this.renderer.createElement('a');
+      a = this.renderer.createElement('a')
       // try to resolve url without base
-      a.href = url;
+      a.href = url
 
-      if(!a.hostname || !a.protocol || !a.pathname) {
+      if (!a.hostname || !a.protocol || !a.pathname) {
         // url not valid
-        return null;
+        return null
       }
 
-      return 'http://'+url;
+      return 'http://' + url
     } else {
       // check base
-      base = this.resolve(base);
+      base = this.resolve(base)
 
       if (base === null) {
         // wrong base
-        return null;
+        return null
       }
     }
 
-    a = this.renderer.createElement('a');
-    a.href = base;
+    a = this.renderer.createElement('a')
+    a.href = base
 
     if (url[0] === '/') {
       // rooted path
-      base = [];
+      base = []
     } else {
       // relative path
-      base = a.pathname.split('/');
-      base.pop();
+      base = a.pathname.split('/')
+      base.pop()
     }
-    url = url.split('/');
+    url = url.split('/')
 
     for (var i = 0; i < url.length; ++i) {
       // current directory
       if (url[i] === '.') {
-        continue;
+        continue
       }
       // parent directory
       if (url[i] === '..') {
         if ('undefined' === typeof base.pop() || base.length === 0) {
           // wrong url accessing non-existing parent directories
-          return null;
+          return null
         }
       } else {
         // child directory
-        base.push(url[i]);
+        base.push(url[i])
       }
     }
 
-    return a.protocol + '//' + a.hostname + base.join('/');
+    return a.protocol + '//' + a.hostname + base.join('/')
   }
 }

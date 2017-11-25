@@ -69,34 +69,18 @@ export class CloudtasksDirective implements OnInit, AfterViewInit {
     if (this.ctSize) {
       this.init()
     } else {
-      if (typeof getComputedStyle === 'function') {
-        const nodeComputedStyle = getComputedStyle(this.el, null)
-        this.width = parseInt(nodeComputedStyle.width, 10)
-        this.height = parseInt(nodeComputedStyle.height, 10)
+      let element = this.el
+      let style = window.getComputedStyle(element)
+      this.width = parseInt(style.width, 10) || 0
+      this.height = parseInt(style.height, 10) || 0
 
-        if (this.width <= 0 || this.height <= 0) {
-          const parentComputedStyle = getComputedStyle(this.el.parentNode, null)
-          if (this.width <= 0) {
-            this.width = parseInt(parentComputedStyle.width, 10)
-          }
-          if (this.height <= 0) {
-            this.height = parseInt(parentComputedStyle.height, 10)
-          }
-        }
-      } else {
-        const nodeRect = this.el.getBoundingClientRect()
-        this.width = nodeRect.width
-        this.height = nodeRect.height
-
-        if (this.width <= 0 || this.height <= 0) {
-          const parentRect = this.el.parentElement.getBoundingClientRect()
-          if (this.width <= 0) {
-            this.width = parentRect.width
-          }
-          if (this.height <= 0) {
-            this.height = parentRect.height
-          }
-        }
+      while (
+        (element = element !== null ? element.parentNode : void 0) instanceof Element &&
+        (this.width <= 0 || this.height <= 0)
+      ) {
+        style = window.getComputedStyle(element)
+        this.width = parseInt(style.width, 10)
+        this.height = parseInt(style.height, 10)
       }
 
       this.init()

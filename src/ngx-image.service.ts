@@ -155,26 +155,44 @@ export class CloudtasksService {
   }
 
   /**
+   * Gets the service base url
+   * @returns
+   */
+  public serviceUrl(): string {
+    return this.settings.dev
+      ? 'cloudtasks-images-dev.global.ssl.fastly.net'
+      : 'cloudtasks.global.ssl.fastly.net'
+  }
+
+  /**
    * Sets the client id
    * @param id
    */
-  public setId(id: string) {
-    return (this.settings.clientId = id)
+  public setId(id: string): void {
+    this.settings.clientId = id
   }
 
   /**
    * Gets the settings
-   * @returns {any}
+   * @returns
    */
-  public getSettings(): any {
+  public getSettings(): Settings {
     return this.settings
   }
 
   /**
-   * Checks if browser supports webp format
-   * @returns {boolean}
+   * Invalidate cache for given url
+   * @param url
    */
-  private canUseWebP() {
+  public invalidateCache(url: string): void {
+    fetch('//' + this.serviceUrl() + '/' + this.settings.clientId + '/invalidate/' + url, { mode: 'no-cors' })
+  }
+
+  /**
+   * Checks if browser supports webp format
+   * @returns
+   */
+  private canUseWebP(): boolean {
     const elem = document.createElement('canvas')
     return (
       elem.getContext &&

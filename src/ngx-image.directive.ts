@@ -113,7 +113,7 @@ export class CloudtasksDirective implements OnInit, AfterViewInit {
   getURL(): string {
     return (
       '//' +
-      (this.settings.dev ? 'dev-images.ctcdn.co' : 'cloudtasks.global.ssl.fastly.net') +
+      this.cloudtasks.serviceUrl() +
       '/' +
       this.settings.clientId +
       this.optionsString +
@@ -126,7 +126,7 @@ export class CloudtasksDirective implements OnInit, AfterViewInit {
   getDefaultURL(): string {
     return (
       '//' +
-      (this.settings.dev ? 'dev-images.ctcdn.co' : 'cloudtasks.global.ssl.fastly.net') +
+      this.cloudtasks.serviceUrl() +
       '/' +
       this.settings.clientId +
       '/' +
@@ -142,7 +142,7 @@ export class CloudtasksDirective implements OnInit, AfterViewInit {
   getErrorURL(): string {
     return (
       '//' +
-      (this.settings.dev ? 'dev-images.ctcdn.co' : 'cloudtasks.global.ssl.fastly.net') +
+      this.cloudtasks.serviceUrl() +
       '/' +
       this.settings.clientId +
       '/' +

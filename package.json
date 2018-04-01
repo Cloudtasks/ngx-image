@@ -96,8 +96,5 @@
   "lint-staged": {
     "*.{ts,json}": ["prettier --write", "git add"]
   },
-  "version": "0.0.0-development",
-  "dependencies": {
-    "whatwg-fetch": "^2.0.4"
-  }
+  "version": "0.0.0-development"
 }

@@ -3,24 +3,24 @@
   "description": "Allows you to serve highly optimized images to your Angular apps.",
   "author": "João Ribeiro <jonnybgod@gmail.com> (http://github.com/JonnyBGod)",
   "devDependencies": {
-    "@angular/common": "^5.2.6",
-    "@angular/compiler": "^5.2.6",
-    "@angular/compiler-cli": "^5.2.6",
-    "@angular/core": "^5.2.6",
-    "@angular/platform-browser": "^5.2.6",
-    "@angular/platform-browser-dynamic": "^5.2.6",
-    "@angular/router": "^5.2.6",
+    "@angular/common": "^5.2.9",
+    "@angular/compiler": "^5.2.9",
+    "@angular/compiler-cli": "^5.2.9",
+    "@angular/core": "^5.2.9",
+    "@angular/platform-browser": "^5.2.9",
+    "@angular/platform-browser-dynamic": "^5.2.9",
+    "@angular/router": "^5.2.9",
     "@types/core-js": "^0.9.46",
     "@types/jasmine": "^2.8.6",
-    "@types/node": "^9.4.6",
-    "awesome-typescript-loader": "^3.4.1",
-    "codelyzer": "^4.1.0",
+    "@types/node": "^9.6.1",
+    "awesome-typescript-loader": "^4.0.1",
+    "codelyzer": "^4.2.1",
     "commitizen": "^2.9.6",
     "concurrently": "^3.5.1",
-    "core-js": "^2.5.3",
+    "core-js": "^2.5.4",
     "cz-conventional-changelog": "^2.1.0",
-    "istanbul-instrumenter-loader": "^3.0.0",
-    "jasmine-core": "^2.99.1",
+    "istanbul-instrumenter-loader": "^3.0.1",
+    "jasmine-core": "^3.1.0",
     "karma": "^2.0.0",
     "karma-chrome-launcher": "^2.2.0",
     "karma-coverage": "^1.1.1",
@@ -28,22 +28,22 @@
     "karma-jasmine": "^1.1.1",
     "karma-mocha-reporter": "^2.2.3",
     "karma-sourcemap-loader": "^0.3.7",
-    "karma-webpack": "^2.0.9",
-    "lint-staged": "^7.0.0",
-    "ng-packagr": "^2.1.0",
-    "prettier": "^1.10.2",
+    "karma-webpack": "^3.0.0",
+    "lint-staged": "^7.0.2",
+    "ng-packagr": "^2.4.1",
+    "prettier": "^1.11.1",
     "reflect-metadata": "^0.1.12",
     "rimraf": "^2.6.1",
-    "rxjs": "^5.5.6",
-    "semantic-release": "^12.4.1",
+    "rxjs": "^5.5.8",
+    "semantic-release": "^15.1.4",
     "source-map-loader": "^0.2.3",
-    "systemjs": "^0.21.0",
+    "systemjs": "^0.21.1",
     "ts-helpers": "^1.1.1",
     "tslint": "^5.9.1",
-    "tslint-loader": "^3.5.2",
-    "typescript": "^2.7.2",
-    "webpack": "^3.11.0",
-    "zone.js": "^0.8.20"
+    "tslint-loader": "^3.6.0",
+    "typescript": "^2.8.1",
+    "webpack": "^4.4.1",
+    "zone.js": "^0.8.23"
   },
   "bugs": {
     "url": "http://github.com/Cloudtasks/ngx-image/issues"
@@ -60,7 +60,7 @@
     "commit": "git-cz",
     "prebuild": "npm run rimraf -- dist",
     "build": "ng-packagr -p ng-package.json",
-    "semantic-release": "semantic-release pre && npm run build && npm publish dist && semantic-release post",
+    "semantic-release": "npm run build && semantic-release",
     "prettier": "prettier --write \"./src/**/*.ts\"",
     "precommit": "lint-staged"
   },
@@ -94,13 +94,10 @@
     }
   },
   "lint-staged": {
-    "*.{ts,json}": [
-      "prettier --write",
-      "git add"
-    ]
+    "*.{ts,json}": ["prettier --write", "git add"]
   },
   "version": "0.0.0-development",
   "dependencies": {
-    "whatwg-fetch": "^2.0.3"
+    "whatwg-fetch": "^2.0.4"
   }
 }

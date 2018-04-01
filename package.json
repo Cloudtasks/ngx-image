@@ -93,6 +93,17 @@
       "path": "node_modules/cz-conventional-changelog"
     }
   },
+  "release": {
+    "publish": [
+      {
+        "path": "@semantic-release/npm",
+        "pkgRoot": "dist"
+      },
+      {
+        "path": "@semantic-release/github"
+      }
+    ]
+  },
   "lint-staged": {
     "*.{ts,json}": ["prettier --write", "git add"]
   },

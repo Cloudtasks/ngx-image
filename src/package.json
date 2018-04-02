@@ -3,6 +3,7 @@
   "description": "Allows you to serve highly optimized images to your Angular apps.",
   "author": "João Ribeiro <jonnybgod@gmail.com> (http://github.com/JonnyBGod)",
   "license": "MIT",
+  "version": "1.1.7",
   "peerDependencies": {
     "@angular/core": "^5.0.0",
     "@angular/common": "^5.0.0"

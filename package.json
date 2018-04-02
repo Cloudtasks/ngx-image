@@ -2,7 +2,6 @@
   "name": "@cloudtasks/ngx-image",
   "description": "Allows you to serve highly optimized images to your Angular apps.",
   "author": "João Ribeiro <jonnybgod@gmail.com> (http://github.com/JonnyBGod)",
-  "version": "1.1.6",
   "devDependencies": {
     "@angular/common": "^5.2.9",
     "@angular/compiler": "^5.2.9",
@@ -65,11 +64,11 @@
     "prettier": "prettier --write \"./src/**/*.ts\"",
     "precommit": "lint-staged"
   },
-  "main": "dist/bundles/ngx-image.umd.js",
-  "module": "dist/@cloudtasks/ngx-image.es5.js",
-  "typings": "dist/ngx-image.d.ts",
-  "es2015": "dist/@cloudtasks/ngx-image.js",
-  "metadata": "dist/ngx-image.metadata.json",
+  "main": "dist/bundles/cloudtasks-ngx-image.umd.js",
+  "module": "dist/esm5/cloudtasks-ngx-image.js",
+  "typings": "dist/cloudtasks-ngx-image.d.ts",
+  "es2015": "dist/esm2015/cloudtasks-ngx-image.js",
+  "metadata": "dist/cloudtasks-ngx-image.metadata.json",
   "repository": {
     "type": "git",
     "url": "https://github.com/Cloudtasks/ngx-image.git"
@@ -94,16 +93,8 @@
       "path": "node_modules/cz-conventional-changelog"
     }
   },
-  "release": {
-    "publish": [
-      {
-        "path": "@semantic-release/npm",
-        "pkgRoot": "dist"
-      },
-      "@semantic-release/github"
-    ]
-  },
   "lint-staged": {
     "*.{ts,json}": ["prettier --write", "git add"]
-  }
+  },
+  "version": "0.0.0-development"
 }

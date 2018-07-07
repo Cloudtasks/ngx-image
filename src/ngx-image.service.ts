@@ -9,7 +9,9 @@ export interface Settings {
   photoHeights: number[]
 }
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class CloudtasksService {
   public settings: Settings = {
     clientId: '',
@@ -149,7 +151,7 @@ export class CloudtasksService {
   }
 
   constructor() {
-    if (this.canUseWebP()) {
+    if (typeof window !== 'undefined' && this.canUseWebP()) {
       this.settings.options.convert = 'webp'
     }
   }
@@ -185,7 +187,9 @@ export class CloudtasksService {
    * @param url
    */
   public invalidateCache(url: string): void {
-    fetch('//' + this.serviceUrl() + '/' + this.settings.clientId + '/invalidate/' + url, { mode: 'no-cors' })
+    fetch('//' + this.serviceUrl() + '/' + this.settings.clientId + '/invalidate/' + url, {
+      mode: 'no-cors'
+    })
   }
 
   /**

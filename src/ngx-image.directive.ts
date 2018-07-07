@@ -70,7 +70,9 @@ export class CloudtasksDirective implements OnInit, AfterViewInit {
       this.init()
     } else {
       let element = this.el
-      let style = window.getComputedStyle(element)
+      let style = (
+        ((typeof window !== 'undefined' && window) as any) || (global as any)
+      ).getComputedStyle(element)
       this.width = parseInt(style.width, 10) || 0
       this.height = parseInt(style.height, 10) || 0
 
@@ -78,7 +80,9 @@ export class CloudtasksDirective implements OnInit, AfterViewInit {
         (element = element !== null ? element.parentNode : void 0) instanceof Element &&
         (this.width <= 0 || this.height <= 0)
       ) {
-        style = window.getComputedStyle(element)
+        style = (
+          ((typeof window !== 'undefined' && window) as any) || (global as any)
+        ).getComputedStyle(element)
         this.width = parseInt(style.width, 10)
         this.height = parseInt(style.height, 10)
       }

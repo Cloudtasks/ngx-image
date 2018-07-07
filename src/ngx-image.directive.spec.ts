@@ -2,11 +2,9 @@ import { Component } from '@angular/core'
 import { CommonModule, Location } from '@angular/common'
 import { async, TestBed } from '@angular/core/testing'
 import { SpyLocation } from '@angular/common/testing'
-import { By } from '@angular/platform-browser'
 
 import { CloudtasksModule } from './ngx-image.module'
 import { CloudtasksService } from './ngx-image.service'
-import { CloudtasksDirective } from './ngx-image.directive'
 
 @Component({
   selector: 'TestComponent',
@@ -21,169 +19,145 @@ class TestComponent {
 describe('CloudtasksDirective', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [CommonModule, CloudtasksModule.forRoot()],
+      imports: [CommonModule, CloudtasksModule],
       declarations: [TestComponent],
       providers: [{ provide: Location, useClass: SpyLocation }]
     })
   })
 
-  it(
-    'should set img src',
-    async(() => {
-      TestBed.overrideComponent(TestComponent, {
-        set: {
-          template: `<img ctSrc="http://example.com/image.jpg" [ctOptions]="{trim: true}" ctSize="origxorig"/>`
-        }
-      })
-
-      TestBed.compileComponents().then(() => {
-        const fixture = TestBed.createComponent(TestComponent)
-        let compiled = fixture.debugElement.nativeElement.children[0]
-
-        fixture.detectChanges()
-
-        expect(compiled.src).toMatch(/\/\/cloudtasks.global.ssl.fastly.net\/YOUR_CLIENT_ID/)
-      })
+  it('should set img src', async(() => {
+    TestBed.overrideComponent(TestComponent, {
+      set: {
+        template: `<img ctSrc="http://example.com/image.jpg" [ctOptions]="{trim: true}" ctSize="origxorig"/>`
+      }
     })
-  )
 
-  it(
-    'should resolve img src',
-    async(() => {
-      TestBed.overrideComponent(TestComponent, {
-        set: {
-          template: `<img ctSrc="image.jpg" [ctOptions]="{trim: true}" ctSize="origxorig"/>`
-        }
-      })
+    TestBed.compileComponents().then(() => {
+      const fixture = TestBed.createComponent(TestComponent)
+      let compiled = fixture.debugElement.nativeElement.children[0]
 
-      TestBed.compileComponents().then(() => {
-        const fixture = TestBed.createComponent(TestComponent)
-        let compiled = fixture.debugElement.nativeElement.children[0]
+      fixture.detectChanges()
 
-        fixture.detectChanges()
-
-        expect(compiled.src).toBe('http://localhost:9876/image.jpg')
-      })
+      expect(compiled.src).toMatch(/\/\/cloudtasks.global.ssl.fastly.net\/YOUR_CLIENT_ID/)
     })
-  )
+  }))
 
-  it(
-    'should skip local images',
-    async(() => {
-      TestBed.overrideComponent(TestComponent, {
-        set: {
-          template: `<img ctSrc="image.jpg" [ctOptions]="{trim: true}" ctSize="origxorig"/>`
-        }
-      })
-
-      TestBed.compileComponents().then(() => {
-        const fixture = TestBed.createComponent(TestComponent)
-        let compiled = fixture.debugElement.nativeElement.children[0]
-
-        fixture.detectChanges()
-
-        expect(compiled.src).toBe('http://localhost:9876/image.jpg')
-      })
+  it('should resolve img src', async(() => {
+    TestBed.overrideComponent(TestComponent, {
+      set: {
+        template: `<img ctSrc="image.jpg" [ctOptions]="{trim: true}" ctSize="origxorig"/>`
+      }
     })
-  )
 
-  it(
-    'should detect element size',
-    async(() => {
-      TestBed.overrideComponent(TestComponent, {
-        set: {
-          template: `<img ctSrc="http://example.com/image.jpg" style="width: 800px; height: 600px"/>`
-        }
-      })
+    TestBed.compileComponents().then(() => {
+      const fixture = TestBed.createComponent(TestComponent)
+      let compiled = fixture.debugElement.nativeElement.children[0]
 
-      TestBed.compileComponents().then(() => {
-        const fixture = TestBed.createComponent(TestComponent)
-        let compiled = fixture.debugElement.nativeElement.children[0]
+      fixture.detectChanges()
 
-        fixture.detectChanges()
-
-        expect(compiled.src).toMatch(/800x600/)
-      })
+      expect(compiled.src).toBe('http://localhost:9876/image.jpg')
     })
-  )
+  }))
 
-  it(
-    'should detect parent element size',
-    async(() => {
-      TestBed.overrideComponent(TestComponent, {
-        set: {
-          template: `<div style="width: 800px; height: 600px"><img ctSrc="http://example.com/image.jpg"/></div>`
-        }
-      })
-
-      TestBed.compileComponents().then(() => {
-        const fixture = TestBed.createComponent(TestComponent)
-        let compiled = fixture.debugElement.nativeElement.querySelector('img')
-
-        fixture.detectChanges()
-
-        expect(compiled.src).toMatch(/800x600/)
-      })
+  it('should skip local images', async(() => {
+    TestBed.overrideComponent(TestComponent, {
+      set: {
+        template: `<img ctSrc="image.jpg" [ctOptions]="{trim: true}" ctSize="origxorig"/>`
+      }
     })
-  )
 
-  it(
-    'should force size',
-    async(() => {
-      TestBed.overrideComponent(TestComponent, {
-        set: {
-          template: `<img ctSrc="http://example.com/image.jpg" style="width: 823px; height: 312px" ctForceSize="true"/>`
-        }
-      })
+    TestBed.compileComponents().then(() => {
+      const fixture = TestBed.createComponent(TestComponent)
+      let compiled = fixture.debugElement.nativeElement.children[0]
 
-      TestBed.compileComponents().then(() => {
-        const fixture = TestBed.createComponent(TestComponent)
-        let compiled = fixture.debugElement.nativeElement.children[0]
+      fixture.detectChanges()
 
-        fixture.detectChanges()
-
-        expect(compiled.src).toMatch(/823x312/)
-      })
+      expect(compiled.src).toBe('http://localhost:9876/image.jpg')
     })
-  )
+  }))
 
-  it(
-    'should pass options',
-    async(() => {
-      TestBed.overrideComponent(TestComponent, {
-        set: {
-          template: `<img ctSrc="http://example.com/image.jpg" [ctOptions]="{trim: true}"/>`
-        }
-      })
-
-      TestBed.compileComponents().then(() => {
-        const fixture = TestBed.createComponent(TestComponent)
-        let compiled = fixture.debugElement.nativeElement.children[0]
-
-        fixture.detectChanges()
-
-        expect(compiled.src).toMatch(/trim/)
-      })
+  it('should detect element size', async(() => {
+    TestBed.overrideComponent(TestComponent, {
+      set: {
+        template: `<img ctSrc="http://example.com/image.jpg" style="width: 800px; height: 600px"/>`
+      }
     })
-  )
 
-  it(
-    'should set placeholder image',
-    async(() => {
-      TestBed.overrideComponent(TestComponent, {
-        set: {
-          template: `<img ctSrc="http://example.com/image.jpg" ctPlaceholderImage="http://example.com/placeholderImage.jpg"/>`
-        }
-      })
+    TestBed.compileComponents().then(() => {
+      const fixture = TestBed.createComponent(TestComponent)
+      let compiled = fixture.debugElement.nativeElement.children[0]
 
-      TestBed.compileComponents().then(() => {
-        const fixture = TestBed.createComponent(TestComponent)
-        let compiled = fixture.debugElement.nativeElement.children[0]
+      fixture.detectChanges()
 
-        fixture.detectChanges()
-
-        expect(compiled.style['background-image']).toMatch(/placeholderImage/)
-      })
+      expect(compiled.src).toMatch(/800x600/)
     })
-  )
+  }))
+
+  it('should detect parent element size', async(() => {
+    TestBed.overrideComponent(TestComponent, {
+      set: {
+        template: `<div style="width: 800px; height: 600px"><img ctSrc="http://example.com/image.jpg"/></div>`
+      }
+    })
+
+    TestBed.compileComponents().then(() => {
+      const fixture = TestBed.createComponent(TestComponent)
+      let compiled = fixture.debugElement.nativeElement.querySelector('img')
+
+      fixture.detectChanges()
+
+      expect(compiled.src).toMatch(/800x600/)
+    })
+  }))
+
+  it('should force size', async(() => {
+    TestBed.overrideComponent(TestComponent, {
+      set: {
+        template: `<img ctSrc="http://example.com/image.jpg" style="width: 823px; height: 312px" ctForceSize="true"/>`
+      }
+    })
+
+    TestBed.compileComponents().then(() => {
+      const fixture = TestBed.createComponent(TestComponent)
+      let compiled = fixture.debugElement.nativeElement.children[0]
+
+      fixture.detectChanges()
+
+      expect(compiled.src).toMatch(/823x312/)
+    })
+  }))
+
+  it('should pass options', async(() => {
+    TestBed.overrideComponent(TestComponent, {
+      set: {
+        template: `<img ctSrc="http://example.com/image.jpg" [ctOptions]="{trim: true}"/>`
+      }
+    })
+
+    TestBed.compileComponents().then(() => {
+      const fixture = TestBed.createComponent(TestComponent)
+      let compiled = fixture.debugElement.nativeElement.children[0]
+
+      fixture.detectChanges()
+
+      expect(compiled.src).toMatch(/trim/)
+    })
+  }))
+
+  it('should set placeholder image', async(() => {
+    TestBed.overrideComponent(TestComponent, {
+      set: {
+        template: `<img ctSrc="http://example.com/image.jpg" ctPlaceholderImage="http://example.com/placeholderImage.jpg"/>`
+      }
+    })
+
+    TestBed.compileComponents().then(() => {
+      const fixture = TestBed.createComponent(TestComponent)
+      let compiled = fixture.debugElement.nativeElement.children[0]
+
+      fixture.detectChanges()
+
+      expect(compiled.style['background-image']).toMatch(/placeholderImage/)
+    })
+  }))
 })

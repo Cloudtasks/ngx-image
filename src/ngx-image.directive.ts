@@ -62,7 +62,7 @@ export class CloudtasksDirective implements OnInit, AfterViewInit {
 
     this.resolvedUrl = this.resolve(this.imageSource)
 
-    if (this.isLocal()) {
+    if (this.isLocal() || typeof window === 'undefined') {
       return this.renderer.setAttribute(this.el, 'src', this.imageSource)
     }
 

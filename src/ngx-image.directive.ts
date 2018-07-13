@@ -115,47 +115,22 @@ export class CloudtasksDirective implements OnInit, AfterViewInit {
   }
 
   getURL(): string {
-    return (
-      '//' +
-      this.cloudtasks.serviceUrl() +
-      '/' +
-      this.settings.clientId +
-      this.optionsString +
-      this.getSize() +
-      '/' +
-      encodeURIComponent(decodeURIComponent(this.resolvedUrl))
-    )
+    return this.cloudtasks.buildUrl(this.resolvedUrl, this.getSize(), this.optionsString)
   }
 
   getDefaultURL(): string {
-    return (
-      '//' +
-      this.cloudtasks.serviceUrl() +
-      '/' +
-      this.settings.clientId +
-      '/' +
-      this.optionsString +
-      this.getSize() +
-      '/' +
-      encodeURIComponent(
-        decodeURIComponent(this.resolve(this.ctPlaceholderImage || this.settings.placeholderImage))
-      )
+    return this.cloudtasks.buildUrl(
+      this.resolve(this.ctPlaceholderImage || this.settings.placeholderImage),
+      this.getSize(),
+      this.optionsString
     )
   }
 
   getErrorURL(): string {
-    return (
-      '//' +
-      this.cloudtasks.serviceUrl() +
-      '/' +
-      this.settings.clientId +
-      '/' +
-      this.optionsString +
-      this.getSize() +
-      '/' +
-      encodeURIComponent(
-        decodeURIComponent('https://cloudtasks.ctcdn.co/images/cloudtasks_fill_blue-512x512.png')
-      )
+    return this.cloudtasks.buildUrl(
+      'https://cloudtasks.ctcdn.co/images/cloudtasks_fill_blue-512x512.png',
+      this.getSize(),
+      this.optionsString
     )
   }
 

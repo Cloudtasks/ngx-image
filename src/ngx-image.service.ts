@@ -158,7 +158,7 @@ export class CloudtasksService {
 
   /**
    * Gets the service base url
-   * @returns {string}
+   * @returns
    */
   public serviceUrl(): string {
     return this.settings.dev
@@ -168,7 +168,7 @@ export class CloudtasksService {
 
   /**
    * Sets the client id
-   * @param {string} id
+   * @param id
    */
   public setId(id: string): void {
     this.settings.clientId = id
@@ -176,7 +176,7 @@ export class CloudtasksService {
 
   /**
    * Gets the settings
-   * @returns {Settings}
+   * @returns
    */
   public getSettings(): Settings {
     return this.settings
@@ -184,7 +184,7 @@ export class CloudtasksService {
 
   /**
    * Invalidate cache for given url
-   * @param {string} url
+   * @param url
    */
   public invalidateCache(url: string): void {
     fetch('//' + this.serviceUrl() + '/' + this.settings.clientId + '/invalidate/' + url, {
@@ -194,11 +194,11 @@ export class CloudtasksService {
 
   /**
    * Build url
-   * @param {string} url
-   * @param {string} [size= ] - Calculated size string.
-   * @param {string} [options= ] - Options string.
+   * @param url
+   * @param [size= ] - Calculated size string.
+   * @param [options= ] - Options string.
    *
-   * @returns {string}
+   * @returns
    */
   public buildUrl(url: string, size: string = '', options: string = '/'): string {
     return (
@@ -215,7 +215,7 @@ export class CloudtasksService {
 
   /**
    * Checks if browser supports webp format
-   * @returns {boolean}
+   * @returns
    */
   private canUseWebP(): boolean {
     const elem = document.createElement('canvas')

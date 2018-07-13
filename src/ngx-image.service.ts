@@ -214,6 +214,86 @@ export class CloudtasksService {
   }
 
   /**
+   * Resolve image url
+   * @param url
+   *
+   * @returns
+   */
+  public resolve(url: any): string {
+    if (typeof window === 'undefined') {
+      return url
+    }
+
+    var loc = document.location.pathname.split('/')
+    loc.pop()
+    var base: any = document.location.origin + loc.join('/') + '/'
+
+    var a: any
+
+    if ('string' !== typeof url || !url) {
+      // wrong or empty url
+      return null
+    } else if (url.match(/^[a-z]+\:\/\//i)) {
+      // url is absolute already
+      return url
+    } else if (url.match(/^\/\//)) {
+      // url is absolute already
+      return 'http:' + url
+    } else if ('string' !== typeof base) {
+      a = document.createElement('a')
+      // try to resolve url without base
+      a.href = url
+
+      if (!a.hostname || !a.protocol || !a.pathname) {
+        // url not valid
+        return null
+      }
+
+      return 'http://' + url
+    } else {
+      // check base
+      base = this.resolve(base)
+
+      if (base === null) {
+        // wrong base
+        return null
+      }
+    }
+
+    a = document.createElement('a')
+    a.href = base
+
+    if (url[0] === '/') {
+      // rooted path
+      base = []
+    } else {
+      // relative path
+      base = a.pathname.split('/')
+      base.pop()
+    }
+    url = url.split('/')
+
+    for (var i = 0; i < url.length; ++i) {
+      // current directory
+      if (url[i] === '.') {
+        continue
+      }
+      // parent directory
+      if (url[i] === '..') {
+        if ('undefined' === typeof base.pop() || base.length === 0) {
+          // wrong url accessing non-existing parent directories
+          return null
+        }
+      } else {
+        // child directory
+        base.push(url[i])
+      }
+    }
+
+    return a.protocol + '//' + a.hostname + base.join('/')
+  }
+
+  /**
    * Checks if browser supports webp format
    * @returns
    */

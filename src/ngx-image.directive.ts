@@ -1,14 +1,12 @@
 import {
   Directive,
   Injectable,
-  Inject,
   ElementRef,
   Renderer2,
   Input,
   OnInit,
   AfterViewInit
 } from '@angular/core'
-import { Location, DOCUMENT } from '@angular/common'
 import { CloudtasksService } from './ngx-image.service'
 
 @Injectable()
@@ -32,13 +30,9 @@ export class CloudtasksDirective implements OnInit, AfterViewInit {
   private height: number
   private optionsString: string = '/'
 
-  private resolvedUrl: string
-
   private tries: number = 0
 
   constructor(
-    @Inject(DOCUMENT) private document: any,
-    private location: Location,
     private elRef: ElementRef,
     private renderer: Renderer2,
     private cloudtasks: CloudtasksService
@@ -59,8 +53,6 @@ export class CloudtasksDirective implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.parseOptions()
-
-    this.resolvedUrl = this.resolve(this.imageSource)
 
     if (this.isLocal() || typeof window === 'undefined') {
       return this.renderer.setAttribute(this.el, 'src', this.imageSource)
@@ -115,12 +107,12 @@ export class CloudtasksDirective implements OnInit, AfterViewInit {
   }
 
   getURL(): string {
-    return this.cloudtasks.buildUrl(this.resolvedUrl, this.getSize(), this.optionsString)
+    return this.cloudtasks.buildUrl(this.imageSource, this.getSize(), this.optionsString)
   }
 
   getDefaultURL(): string {
     return this.cloudtasks.buildUrl(
-      this.resolve(this.ctPlaceholderImage || this.settings.placeholderImage),
+      this.cloudtasks.resolve(this.ctPlaceholderImage || this.settings.placeholderImage),
       this.getSize(),
       this.optionsString
     )
@@ -136,7 +128,7 @@ export class CloudtasksDirective implements OnInit, AfterViewInit {
 
   isLocal(): boolean {
     const a = this.renderer.createElement('a')
-    a.href = this.resolvedUrl
+    a.href = this.imageSource
     return /localhost$|\.local$|:\d{2,4}$/i.test(a.hostname)
   }
 
@@ -216,75 +208,5 @@ export class CloudtasksDirective implements OnInit, AfterViewInit {
     }
 
     this.optionsString = optionsString
-  }
-
-  resolve(url: any) {
-    var loc = this.location.path().split('/')
-    loc.pop()
-    var base: any = this.document.location.origin + loc.join('/') + '/'
-
-    var a: any
-
-    if ('string' !== typeof url || !url) {
-      // wrong or empty url
-      return null
-    } else if (url.match(/^[a-z]+\:\/\//i)) {
-      // url is absolute already
-      return url
-    } else if (url.match(/^\/\//)) {
-      // url is absolute already
-      return 'http:' + url
-    } else if ('string' !== typeof base) {
-      a = this.renderer.createElement('a')
-      // try to resolve url without base
-      a.href = url
-
-      if (!a.hostname || !a.protocol || !a.pathname) {
-        // url not valid
-        return null
-      }
-
-      return 'http://' + url
-    } else {
-      // check base
-      base = this.resolve(base)
-
-      if (base === null) {
-        // wrong base
-        return null
-      }
-    }
-
-    a = this.renderer.createElement('a')
-    a.href = base
-
-    if (url[0] === '/') {
-      // rooted path
-      base = []
-    } else {
-      // relative path
-      base = a.pathname.split('/')
-      base.pop()
-    }
-    url = url.split('/')
-
-    for (var i = 0; i < url.length; ++i) {
-      // current directory
-      if (url[i] === '.') {
-        continue
-      }
-      // parent directory
-      if (url[i] === '..') {
-        if ('undefined' === typeof base.pop() || base.length === 0) {
-          // wrong url accessing non-existing parent directories
-          return null
-        }
-      } else {
-        // child directory
-        base.push(url[i])
-      }
-    }
-
-    return a.protocol + '//' + a.hostname + base.join('/')
   }
 }

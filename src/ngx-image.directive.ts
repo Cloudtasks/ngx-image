@@ -107,7 +107,11 @@ export class CloudtasksDirective implements OnInit, AfterViewInit {
   }
 
   getURL(): string {
-    return this.cloudtasks.buildUrl(this.imageSource, this.getSize(), this.optionsString)
+    return this.cloudtasks.buildUrl(
+      this.cloudtasks.resolve(this.imageSource),
+      this.getSize(),
+      this.optionsString
+    )
   }
 
   getDefaultURL(): string {

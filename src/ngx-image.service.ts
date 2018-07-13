@@ -200,7 +200,7 @@ export class CloudtasksService {
    *
    * @returns
    */
-  public buildUrl(url: string, size: string = '', options: string = '/'): string {
+  public buildUrl(url: string, size: string = '', options: string = ''): string {
     return (
       '//' +
       this.serviceUrl() +
